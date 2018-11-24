@@ -13,6 +13,11 @@ public class PatientServiceImpl implements PatientService {
     PatientRepository patientRepository;
 
     @Override
+    public Patient findByPesel(String pesel) {
+        return patientRepository.findByPesel(pesel);
+    }
+
+    @Override
     public List<Patient> findAll() {
         return patientRepository.findAll();
     }

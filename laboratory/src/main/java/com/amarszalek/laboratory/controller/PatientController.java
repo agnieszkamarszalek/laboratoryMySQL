@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/patient")
 @CrossOrigin(origins = "*")
 public class PatientController {
 
@@ -26,4 +26,9 @@ public class PatientController {
         return patientService.createPatient(patient);
     }
 
+    @GetMapping()
+    @RequestMapping(params = "pesel")
+    public Patient findByPesel(@RequestParam String pesel) {
+        return patientService.findByPesel(pesel);
+    }
 }
