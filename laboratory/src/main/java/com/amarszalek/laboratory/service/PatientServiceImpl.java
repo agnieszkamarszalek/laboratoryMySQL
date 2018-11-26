@@ -1,5 +1,6 @@
 package com.amarszalek.laboratory.service;
 
+import com.amarszalek.laboratory.exception.PatientNotFoundException;
 import com.amarszalek.laboratory.model.Patient;
 import com.amarszalek.laboratory.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,12 @@ public class PatientServiceImpl implements PatientService {
     PatientRepository patientRepository;
 
     @Override
-    public Patient findByPesel(String pesel) {
-        return patientRepository.findByPesel(pesel);
+    public Patient findByPesel(String pesel) throws PatientNotFoundException {
+        try {
+            return patientRepository.findByPesel(pesel);
+        } catch (NullPointerException e) {
+            throw new PatientNotFoundException("Patient not found by pesel:" + pesel );
+        }
     }
 
     @Override
