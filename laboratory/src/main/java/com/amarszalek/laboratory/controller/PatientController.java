@@ -1,9 +1,11 @@
 package com.amarszalek.laboratory.controller;
 
 import com.amarszalek.laboratory.exception.PatientNotFoundException;
+import com.amarszalek.laboratory.exception.PeselNotUniqueException;
 import com.amarszalek.laboratory.model.Patient;
 import com.amarszalek.laboratory.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +25,16 @@ public class PatientController {
     }
 
     @PostMapping()
-    public Patient createPatient(@RequestBody Patient patient){
-        return patientRepository.save(patient);
+    public void createPatient(@RequestBody Patient patient){
+        try {
+            patientRepository.save(patient);
+        } catch (Exception e) {
+            String message = e.getMessage();
+            if(message.contains("pesel_UNIQUE")){
+                throw new PeselNotUniqueException("Patient with pesel: " + patient.getPesel() + " already exist");
+            }
+
+        }
     }
 
     @GetMapping()
