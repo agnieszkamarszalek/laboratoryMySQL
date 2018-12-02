@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/patient")
 @CrossOrigin(origins = "*")
 public class PatientController {
 
