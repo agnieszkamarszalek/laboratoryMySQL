@@ -31,7 +31,7 @@ public class PatientController {
         } catch (Exception e) {
             String message = e.getMessage();
             if(message.contains("pesel_UNIQUE")){
-                throw new PeselNotUniqueException("Patient with pesel: " + patient.getPesel() + " already exist");
+                throw new PeselNotUniqueException("Pacjent z peselem: " + patient.getPesel() + " już istnieje");
             }
 
         }
@@ -41,7 +41,17 @@ public class PatientController {
     @RequestMapping(params = "pesel")
     public Patient findByPesel(@RequestParam String pesel) {
         Optional<Patient> patient = patientRepository.findByPesel(pesel);
-        return patient.orElseThrow(() -> new PatientNotFoundException("Patient not found by pesel: " + pesel));
+        return patient.orElseThrow(() -> new PatientNotFoundException("Nie znaleziono pacjenta z nr pesel: " + pesel));
+
+    }
+
+    @GetMapping()
+    @RequestMapping(params = {"firstName", "lastName"} )
+    public List<Patient> findPatientByFirstNameAndLastName
+            (@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName) {
+        Optional<List<Patient>> patientsList = patientRepository.findByFirstNameAndLastName(firstName, lastName);
+        return patientsList.orElseThrow(
+                () -> new PatientNotFoundException("Nie znaleziono pacjenta " + firstName + " " + lastName));
 
     }
 }
