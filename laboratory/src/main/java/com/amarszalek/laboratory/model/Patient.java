@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name="PATIENT")
@@ -25,4 +27,7 @@ public class Patient {
     @Enumerated(value = EnumType.STRING)
     private Gender gender = Gender.I;
     private String phoneNumber = "";
+    @OneToMany(mappedBy = "patient")
+    private List<TestsList> testsLists;
+
 }
